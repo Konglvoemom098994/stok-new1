@@ -305,27 +305,29 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.45);
-  z-index: 500;
-  align-items: center;
+  z-index: 1000;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+  -webkit-justify-content: center;
   justify-content: center;
 }
-#qty-overlay.open { display: flex; }
+#qty-overlay.open {
+  display: -webkit-flex;
+  display: flex;
+}
 #qty-modal {
   background: #fff;
-  border-radius: 10px;
-  padding: 24px 28px;
-  box-shadow: 0 8px 32px rgba(0,0,0,.3);
-  min-width: 260px;
+  border-radius: 22px 22px 0 0;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 -4px 40px rgba(0,0,0,.2);
   font-family: inherit;
 }
 #qty-modal h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
   color: #1a1a2e;
-  border-bottom: 2px solid #FFD700;
-  padding-bottom: 8px;
 }
 #qty-inp {
   width: 100%;
@@ -365,27 +367,29 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.45);
-  z-index: 520;
-  align-items: center;
+  z-index: 1000;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+  -webkit-justify-content: center;
   justify-content: center;
 }
-#code-overlay.open { display: flex; }
+#code-overlay.open {
+  display: -webkit-flex;
+  display: flex;
+}
 #code-modal {
   background: #fff;
-  border-radius: 10px;
-  padding: 24px 28px;
-  box-shadow: 0 8px 32px rgba(0,0,0,.3);
-  min-width: 280px;
+  border-radius: 22px 22px 0 0;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 -4px 40px rgba(0,0,0,.2);
   font-family: inherit;
 }
 #code-modal h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
   color: #1a1a2e;
-  border-bottom: 2px solid #5b8def;
-  padding-bottom: 8px;
 }
 .code-current {
   font-size: 13px;
@@ -603,13 +607,49 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   color: #666; flex-shrink: 0;
 }
 
+/* ── Mobile Table Tab Switcher ── */
+.mobile-tab-bar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #1a1a2e;
+  padding: 8px 12px calc(8px + env(safe-area-inset-top, 0px));
+  padding-top: calc(8px + env(safe-area-inset-top, 0px));
+  gap: 8px;
+}
+.mobile-tab-btn {
+  flex: 1;
+  min-height: 44px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.7);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.mobile-tab-btn.active {
+  background: #0055cc;
+  border-color: #0088ff;
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(0,85,204,.35);
+}
+
 /* Show/hide card vs table — screen only, print ไม่ถูกกระทบ */
 @media screen and (max-width: 768px) {
   .mobile-table-section { display: block; }
+  .mobile-tab-bar { display: flex !important; }
   .page-wrap { overflow-x: visible !important; }
   .tables-row { display: none !important; }
   .legend-panel { display: none !important; }
   .sheet-inner { display: block !important; }
+  /* Hide inactive sheets */
+  .mobile-table-section.tab-hidden { display: none !important; }
 }
 /* ปริ้น: บังคับแสดงตารางหลัก ซ่อน card view */
 @media print {
@@ -792,23 +832,11 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
     padding-bottom: calc(24px + var(--safe-bottom));
   }
 
-  /* Qty modal: slide-up sheet */
-  #qty-overlay { align-items: flex-end; }
-  #qty-modal {
-    width: 100vw; max-width: 100vw;
-    border-radius: 22px 22px 0 0;
-    padding-bottom: calc(24px + var(--safe-bottom));
-  }
+  /* Qty modal: iOS-safe bottom sheet */
   #qty-inp { font-size: 32px; padding: 14px; }
   .qty-btn { min-height: 52px; font-size: 15px; }
 
-  /* Code modal: slide-up sheet */
-  #code-overlay { align-items: flex-end; }
-  #code-modal {
-    width: 100vw; max-width: 100vw;
-    border-radius: 22px 22px 0 0;
-    padding-bottom: calc(24px + var(--safe-bottom));
-  }
+  /* Code modal: iOS-safe bottom sheet */
   #code-inp { font-size: 32px; padding: 14px; }
   .code-btn { min-height: 52px; font-size: 15px; }
 
@@ -1226,21 +1254,28 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
 
 /* Slide-up animation for mobile modals */
 @keyframes slide-up-modal {
-  from { transform: translateY(30px); opacity: 0; }
+  from { transform: translateY(100%); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
+/* Drag handle on all modals globally */
+#date-modal::before, #qty-modal::before, #code-modal::before, #board-modal::before {
+  content: '';
+  display: block;
+  width: 40px; height: 4px;
+  background: #d0d8df; border-radius: 2px;
+  margin: -4px auto 16px;
+}
+#qty-modal, #code-modal, #date-modal {
+  animation: slide-up-modal .25s cubic-bezier(.2,.8,.3,1) both;
+}
 @media screen and (max-width: 768px) {
-  #date-modal, #qty-modal, #code-modal, #board-modal {
+  #board-modal {
     animation: slide-up-modal .22s cubic-bezier(.2,.8,.3,1) both;
   }
-  /* Drag handle indicator */
-  #date-modal::before, #qty-modal::before, #code-modal::before, #board-modal::before {
-    content: '';
-    display: block;
-    width: 40px; height: 4px;
-    background: #d0d8df; border-radius: 2px;
-    margin: -8px auto 18px;
-  }
+}
+/* Hide page separator on mobile */
+@media screen and (max-width: 768px) {
+  #page-sep-1 { display: none !important; }
 }
 
 
@@ -1431,6 +1466,120 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   .board-actions { position: sticky; bottom: 0; background: #fff; padding-top: 8px; }
 }
 
+
+/* ============================================================
+   MOBILE PRINT PREVIEW MODE
+============================================================ */
+html.mobile-print-preview, body.mobile-print-preview {
+  background: #bfc5cc !important;
+  overflow: auto !important;
+}
+.mobile-preview-only { display: none; }
+html.mobile-print-preview #toolbar,
+html.mobile-print-preview #check-mode,
+html.mobile-print-preview #board-overlay,
+html.mobile-print-preview #undo-bar,
+html.mobile-print-preview #page-sep-1,
+html.mobile-print-preview .mobile-tab-bar,
+html.mobile-print-preview .mobile-table-section,
+html.mobile-print-preview #mobile-dialog-overlay,
+html.mobile-print-preview #print-guide-overlay,
+html.mobile-print-preview #row-actions,
+html.mobile-print-preview #ctx,
+html.mobile-print-preview #qty-overlay,
+html.mobile-print-preview #code-overlay,
+html.mobile-print-preview #date-overlay,
+html.mobile-print-preview #stable-check-mode,
+html.mobile-print-preview #ios-action-sheet-overlay {
+  display: none !important;
+}
+html.mobile-print-preview .mobile-preview-only {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+html.mobile-print-preview #sheet1,
+html.mobile-print-preview #sheet2 {
+  display: block !important;
+}
+html.mobile-print-preview .page-wrap {
+  width: 1398px !important;
+  margin: 12px auto !important;
+  padding: 12px 14px 14px !important;
+  overflow: visible !important;
+  box-shadow: 0 2px 14px rgba(0,0,0,.2) !important;
+}
+html.mobile-print-preview .sheet-inner {
+  display: flex !important;
+}
+html.mobile-print-preview .tables-row {
+  display: flex !important;
+  gap: 16px !important;
+}
+html.mobile-print-preview .legend-panel {
+  display: flex !important;
+}
+.mobile-preview-shell {
+  display: none;
+}
+html.mobile-print-preview .mobile-preview-shell {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 10px calc(18px + env(safe-area-inset-bottom, 0px));
+}
+.mobile-preview-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 400;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(17,49,60,.96);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.18);
+  margin-bottom: 12px;
+}
+.mobile-preview-title {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.mobile-preview-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.mobile-preview-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+}
+.mobile-preview-btn.primary { background: #0055cc; color: #fff; }
+.mobile-preview-btn.secondary { background: #eef0f4; color: #1f2a33; }
+.mobile-preview-stage {
+  width: 100%;
+  overflow: auto;
+  border-radius: 18px;
+}
+.mobile-preview-scale {
+  transform-origin: top center;
+  margin: 0 auto;
+}
+.mobile-preview-note {
+  margin-top: 10px;
+  color: #33424c;
+  font-size: 12px;
+  text-align: center;
+}
+
 /* ============================================================
    PRINT — A4 LANDSCAPE
    
@@ -1467,10 +1616,13 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   #toolbar, #date-overlay, #ctx, #code-overlay, #row-actions, #qty-overlay,
   #check-mode, #board-overlay, #undo-bar, #stable-check-mode, .page-sep,
   .mobile-table-section, #mobile-s1, #mobile-s2,
-  #mobile-dialog-overlay, #print-guide-overlay {
+  #mobile-dialog-overlay, #print-guide-overlay,
+  #mobile-tab-bar, #ios-action-sheet-overlay, #page-sep-1 {
     display: none !important;
     visibility: hidden !important;
   }
+  /* ── ปริ้น: แสดง sheet ทั้งสอง ── */
+  #sheet1, #sheet2 { display: block !important; }
 
   html, body {
     background: #fff !important;
@@ -1761,10 +1913,27 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
       </li>
     </ul>
     <div class="pg-btn-row">
-      <button class="pg-btn secondary" onclick="closePrintGuide()">ปิด</button>
+      <button class="pg-btn secondary" onclick="openMobilePrintPreviewFromGuide()">ดูตัวอย่างมือถือ</button>
       <button class="pg-btn primary" onclick="closePrintGuide();window.print()">เปิดหน้าปริ้น</button>
     </div>
   </div>
+</div>
+
+<!-- ===== MOBILE PRINT PREVIEW ===== -->
+<div class="mobile-preview-shell" id="mobile-preview-shell">
+  <div class="mobile-preview-topbar">
+    <div class="mobile-preview-title">ตัวอย่างหน้าปริ้นบนมือถือ
+      <div style="font-size:11px;font-weight:600;opacity:.85;">ดู 2 หน้าแบบสเกลย่อเพื่อเช็กสัดส่วนก่อนสั่งพิมพ์</div>
+    </div>
+    <div class="mobile-preview-actions">
+      <button class="mobile-preview-btn primary" onclick="window.print()">พิมพ์ / PDF</button>
+      <button class="mobile-preview-btn secondary" onclick="closeMobilePrintPreview()">ปิด</button>
+    </div>
+  </div>
+  <div class="mobile-preview-stage">
+    <div class="mobile-preview-scale" id="mobile-preview-scale"></div>
+  </div>
+  <div class="mobile-preview-note">โหมดนี้เป็นตัวอย่างบนมือถือเท่านั้น และไม่แตะ logic ส่วนอื่นของระบบ</div>
 </div>
 
 <!-- ===== TOOLBAR ===== -->
@@ -1778,6 +1947,7 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   <!-- Row 2: Secondary actions (scrollable on mobile) -->
   <div class="tb-row-2">
     <button class="tb-btn primary" onclick="mobilePrint()">🖨 ปริ้น / PDF</button>
+    <button class="tb-btn mobile-preview-only" onclick="closeMobilePrintPreview()">ปิดตัวอย่าง</button>
     <div class="tb-sep"></div>
     <button class="tb-btn" onclick="openDateModal()">📅 วันที่</button>
     <button class="tb-btn" onclick="saveState(true)">💾 บันทึก</button>
@@ -1824,7 +1994,7 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   </div>
 </div>
 
-<!-- ===== CONTEXT MENU ===== -->
+<!-- ===== CONTEXT MENU (Desktop) / iOS ACTION SHEET (Mobile) ===== -->
 <div id="ctx">
   <div class="ctx-item" onclick="setRowColor('')">
     <div class="ctx-dot" style="background:#fff;border-color:#aaa"></div>ปกติ (ล้างสี)
@@ -1863,11 +2033,97 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   </div>
 </div>
 
+<!-- ===== iOS ACTION SHEET (Mobile Context Menu Replacement) ===== -->
+<div id="ios-action-sheet-overlay" style="display:none;position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.45);" onclick="closeIosActionSheet()">
+  <div id="ios-action-sheet" onclick="event.stopPropagation()" style="
+    position:fixed;left:0;right:0;bottom:0;
+    background:#f2f2f7;
+    border-radius:14px 14px 0 0;
+    padding:0 0 calc(10px + env(safe-area-inset-bottom,0px));
+    max-height:88dvh;overflow-y:auto;
+    font-family:inherit;
+    transform:translateY(100%);
+    transition:transform .28s cubic-bezier(.32,1,.23,1);
+    will-change:transform;
+  ">
+    <!-- Handle -->
+    <div style="width:36px;height:4px;background:#c7c7cc;border-radius:2px;margin:10px auto 0;"></div>
+    <!-- Title -->
+    <div id="ios-sheet-title" style="font-size:13px;color:#8e8e93;text-align:center;padding:10px 16px 6px;font-weight:600;"></div>
+
+    <!-- Status Colors Section -->
+    <div style="background:#fff;border-radius:12px;margin:0 8px 8px;overflow:hidden;">
+      <div style="font-size:12px;color:#8e8e93;padding:10px 16px 4px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">สถานะสินค้า</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;border-top:0.5px solid #e5e5ea;">
+        <button onclick="setRowColor('');closeIosActionSheet()" class="ios-sheet-btn" style="border-right:0.5px solid #e5e5ea;border-bottom:0.5px solid #e5e5ea;">
+          <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#fff;border:1.5px solid #aaa;margin-right:8px;vertical-align:middle;"></span>ปกติ (ล้างสี)
+        </button>
+        <button onclick="setRowColor('row-pink');closeIosActionSheet()" class="ios-sheet-btn" style="border-bottom:0.5px solid #e5e5ea;">
+          <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#FF69B4;margin-right:8px;vertical-align:middle;"></span>ตก. ห (ชมพู)
+        </button>
+        <button onclick="setRowColor('row-orange');closeIosActionSheet()" class="ios-sheet-btn" style="border-right:0.5px solid #e5e5ea;border-bottom:0.5px solid #e5e5ea;">
+          <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#FFA500;margin-right:8px;vertical-align:middle;"></span>รอเข้า ห (ส้ม)
+        </button>
+        <button onclick="setRowColor('row-green');closeIosActionSheet()" class="ios-sheet-btn" style="border-bottom:0.5px solid #e5e5ea;">
+          <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#00AA00;margin-right:8px;vertical-align:middle;"></span>เหลือใช้ 1 วัน
+        </button>
+        <button onclick="setRowColor('row-red');closeIosActionSheet()" class="ios-sheet-btn" style="border-right:0.5px solid #e5e5ea;">
+          <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#DD0000;margin-right:8px;vertical-align:middle;"></span>ใกล้หมด (แดง)
+        </button>
+        <button onclick="setRowColor('row-gray');closeIosActionSheet()" class="ios-sheet-btn">
+          <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#AAAAAA;margin-right:8px;vertical-align:middle;"></span>สั่งย่อย (เทา)
+        </button>
+      </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div style="background:#fff;border-radius:12px;margin:0 8px 8px;overflow:hidden;">
+      <button onclick="openCodeModal();closeIosActionSheet()" class="ios-sheet-btn ios-sheet-btn-full" style="border-bottom:0.5px solid #e5e5ea;">
+        <span style="font-size:16px;margin-right:10px;">🏷</span>ตั้งรหัส CODE
+      </button>
+      <button onclick="openQtyModal();closeIosActionSheet()" class="ios-sheet-btn ios-sheet-btn-full" style="border-bottom:0.5px solid #e5e5ea;">
+        <span style="font-size:16px;margin-right:10px;">🟡</span>ใส่จำนวนชุด
+      </button>
+      <button onclick="insertRowAbove();closeIosActionSheet()" class="ios-sheet-btn ios-sheet-btn-full" style="border-bottom:0.5px solid #e5e5ea;">
+        <span style="font-size:16px;margin-right:10px;">↑</span>เพิ่มแถวด้านบน
+      </button>
+      <button onclick="insertRowBelow();closeIosActionSheet()" class="ios-sheet-btn ios-sheet-btn-full" style="border-bottom:0.5px solid #e5e5ea;">
+        <span style="font-size:16px;margin-right:10px;">↓</span>เพิ่มแถวด้านล่าง
+      </button>
+      <button onclick="deleteRow();closeIosActionSheet()" class="ios-sheet-btn ios-sheet-btn-full" style="color:#cc0000;">
+        <span style="font-size:16px;margin-right:10px;">🗑</span>ลบแถวนี้
+      </button>
+    </div>
+
+    <!-- Cancel -->
+    <div style="background:#fff;border-radius:12px;margin:0 8px;">
+      <button onclick="closeIosActionSheet()" class="ios-sheet-btn ios-sheet-btn-full" style="font-weight:800;color:#007aff;">
+        ยกเลิก
+      </button>
+    </div>
+  </div>
+</div>
+<style>
+.ios-sheet-btn {
+  display:flex; align-items:center; width:100%; min-height:52px;
+  padding:12px 16px; border:none; background:transparent;
+  font-family:inherit; font-size:16px; font-weight:500; color:#1c1c1e;
+  cursor:pointer; text-align:left;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.ios-sheet-btn:active { background:rgba(0,0,0,.06); }
+.ios-sheet-btn-full { justify-content:flex-start; }
+</style>
+
 <!-- ===== QTY MODAL ===== -->
 <div id="qty-overlay" onclick="if(event.target===this)closeQtyModal()">
   <div id="qty-modal">
-    <h3>🟡 จำนวนชุด</h3>
-    <input id="qty-inp" type="number" min="0" placeholder="เช่น 54"
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <h3 style="border:none;padding:0;margin:0;">🟡 จำนวนชุด</h3>
+      <button onclick="closeQtyModal()" style="border:none;background:#eef0f4;border-radius:10px;width:34px;height:34px;font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
+    </div>
+    <input id="qty-inp" type="number" min="0" placeholder="เช่น 54" inputmode="numeric" pattern="[0-9]*"
            onkeydown="if(event.key==='Enter')applyQty()">
     <div class="qty-actions">
       <button class="qty-btn qty-cancel"  onclick="closeQtyModal()">ยกเลิก</button>
@@ -1961,9 +2217,13 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
 <!-- ===== CODE MODAL ===== -->
 <div id="code-overlay" onclick="if(event.target===this)closeCodeModal()">
   <div id="code-modal">
-    <h3>🏷️ ตั้งรหัส CODE</h3>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <h3 style="border:none;padding:0;margin:0;">🏷️ ตั้งรหัส CODE</h3>
+      <button onclick="closeCodeModal()" style="border:none;background:#eef0f4;border-radius:10px;width:34px;height:34px;font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
+    </div>
     <div id="code-current" class="code-current">-</div>
     <input id="code-inp" type="text" maxlength="12" placeholder="เช่น A34 หรือ P53"
+           autocapitalize="characters" autocorrect="off" autocomplete="off"
            oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')"
            onkeydown="if(event.key==='Enter')applyCode()">
     <div class="code-actions">
@@ -1980,6 +2240,12 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   <button class="ra-btn code" onclick="openCodeModalFromSelected()">🏷 CODE</button>
   <button class="ra-btn qty" onclick="openQtyModalFromSelected()">🟡 ชุด</button>
   <button class="ra-btn close" onclick="clearSelectedRow()">ปิด</button>
+</div>
+
+<!-- ===== MOBILE TABLE TAB BAR (screen only) ===== -->
+<div class="mobile-tab-bar" id="mobile-tab-bar" style="display:none">
+  <button class="mobile-tab-btn active" id="tab-btn-1" type="button" onclick="switchMobileTab(1)">📋 ตารางที่ 1</button>
+  <button class="mobile-tab-btn" id="tab-btn-2" type="button" onclick="switchMobileTab(2)">📋 ตารางที่ 2</button>
 </div>
 
 <!-- =================================================================
@@ -2008,7 +2274,7 @@ button, .tb-btn, .check-code-tile, .check-chip, .check-cat-btn, .check-row-btn, 
   <div class="mobile-table-section" id="mobile-s1"></div>
 </div>
 
-<hr class="page-sep">
+<hr class="page-sep" id="page-sep-1">
 
 <!-- =================================================================
      SHEET 2 — หน้า 2
@@ -2256,7 +2522,7 @@ function setRowColor(cls) {
   queueSave();
   closeCtx();
 }
-function closeCtx() {
+function _closeCtxLegacy() {
   document.getElementById('ctx').style.display = 'none';
   // remove mobile backdrop if any
   const bd = document.getElementById('ctx-backdrop');
@@ -2264,30 +2530,62 @@ function closeCtx() {
   CTX_TARGET = null;
 }
 
-// Mobile: show ctx as bottom sheet with backdrop
+// Mobile: show iOS action sheet on mobile, desktop ctx menu otherwise
 function showCtxMenu(tr, clientX, clientY) {
   CTX_TARGET = tr;
-  const ctx = document.getElementById('ctx');
   const isMobile = window.innerWidth <= 768;
   if (isMobile) {
-    ctx.style.removeProperty('left');
-    ctx.style.removeProperty('top');
-    ctx.style.display = 'block';
-    // backdrop
-    if (!document.getElementById('ctx-backdrop')) {
-      const bd = document.createElement('div');
-      bd.id = 'ctx-backdrop';
-      bd.style.cssText = 'position:fixed;inset:0;z-index:599;background:rgba(0,0,0,.4);';
-      bd.addEventListener('click', closeCtx);
-      document.body.insertBefore(bd, ctx);
-    }
+    // Use iOS Action Sheet instead of the old ctx menu
+    openIosActionSheet(tr);
   } else {
+    const ctx = document.getElementById('ctx');
     ctx.style.display = 'block';
     const x = Math.min(clientX, window.innerWidth - ctx.offsetWidth - 12);
     const y = Math.min(clientY, window.innerHeight - ctx.offsetHeight - 12);
     ctx.style.left = x + 'px';
     ctx.style.top  = y + 'px';
   }
+}
+
+function openIosActionSheet(tr) {
+  const overlay = document.getElementById('ios-action-sheet-overlay');
+  const sheet = document.getElementById('ios-action-sheet');
+  const titleEl = document.getElementById('ios-sheet-title');
+  if (!overlay || !sheet) return;
+  const name = tr ? (getDisplayNameFromRow(tr) || 'สินค้า') : 'สินค้า';
+  const code = tr ? getRowCode(tr) : '';
+  titleEl.textContent = code ? `${name} · ${code}` : name;
+  overlay.style.display = 'block';
+  // Animate in after paint
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      sheet.style.transform = 'translateY(0)';
+    });
+  });
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+function closeIosActionSheet() {
+  const overlay = document.getElementById('ios-action-sheet-overlay');
+  const sheet = document.getElementById('ios-action-sheet');
+  if (!overlay || !sheet) return;
+  sheet.style.transform = 'translateY(100%)';
+  document.body.style.overflow = '';
+  // Remove after animation
+  setTimeout(() => {
+    overlay.style.display = 'none';
+  }, 300);
+  CTX_TARGET = null;
+}
+
+// Keep ctx close for desktop
+function closeCtx() {
+  const ctx = document.getElementById('ctx');
+  if (ctx) ctx.style.display = 'none';
+  const bd = document.getElementById('ctx-backdrop');
+  if (bd) bd.remove();
+  CTX_TARGET = null;
 }
 
 /* ── จำนวนชุด ── */
@@ -2299,11 +2597,17 @@ function openQtyModal() {
   const badge = td.querySelector('.qty-badge');
   document.getElementById('qty-inp').value = badge ? badge.dataset.qty : '';
   closeCtx();
-  document.getElementById('qty-overlay').classList.add('open');
-  setTimeout(() => document.getElementById('qty-inp').select(), 50);
+  const overlay = document.getElementById('qty-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // iOS: delay focus to avoid keyboard pushing layout
+  setTimeout(() => {
+    try { document.getElementById('qty-inp').focus(); document.getElementById('qty-inp').select(); } catch(e) {}
+  }, 120);
 }
 function closeQtyModal() {
   document.getElementById('qty-overlay').classList.remove('open');
+  document.body.style.overflow = '';
   QTY_TARGET = null;
 }
 function applyQty() {
@@ -2359,10 +2663,12 @@ function openCodeModal() {
   input.value = getRowCode(CODE_TARGET);
   closeCtx();
   overlay.classList.add('open');
-  setTimeout(() => { try { input.focus(); input.select(); } catch(e) {} }, 80);
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => { try { input.focus(); input.select(); } catch(e) {} }, 120);
 }
 function closeCodeModal() {
   document.getElementById('code-overlay').classList.remove('open');
+  document.body.style.overflow = '';
   CODE_TARGET = null;
 }
 function codeExistsElsewhere(code, currentRowId) {
@@ -2397,7 +2703,7 @@ function clearCode() {
 let _ctxJustOpened = false;
 document.addEventListener('click', e => {
   if (_ctxJustOpened) { _ctxJustOpened = false; return; }
-  if (!e.target.closest('#ctx') && !e.target.closest('tr') && !e.target.closest('#row-actions') && !e.target.closest('#code-overlay') && !e.target.closest('#qty-overlay')) {
+  if (!e.target.closest('#ctx') && !e.target.closest('#ios-action-sheet-overlay') && !e.target.closest('tr') && !e.target.closest('#row-actions') && !e.target.closest('#code-overlay') && !e.target.closest('#qty-overlay')) {
     closeCtx();
     clearSelectedRow();
   }
@@ -3185,6 +3491,48 @@ function closePrintGuide() {
   document.getElementById('print-guide-overlay').classList.remove('open');
 }
 
+function applyMobilePrintPreviewScale() {
+  const scaleHost = document.getElementById('mobile-preview-scale');
+  const stage = document.querySelector('.mobile-preview-stage');
+  const sheet1 = document.getElementById('sheet1');
+  const sheet2 = document.getElementById('sheet2');
+  if (!scaleHost || !stage || !sheet1 || !sheet2) return;
+  if (!scaleHost.firstElementChild) {
+    const wrap = document.createElement('div');
+    wrap.id = 'mobile-preview-pages';
+    wrap.appendChild(sheet1.cloneNode(true));
+    wrap.appendChild(sheet2.cloneNode(true));
+    scaleHost.appendChild(wrap);
+  }
+  const pages = scaleHost.firstElementChild;
+  pages.style.width = '1398px';
+  const available = Math.max(320, stage.clientWidth - 8);
+  const scale = Math.min(1, available / 1398);
+  scaleHost.style.width = '1398px';
+  scaleHost.style.transform = `scale(${scale})`;
+  scaleHost.style.height = `${pages.scrollHeight * scale}px`;
+}
+
+function openMobilePrintPreview() {
+  document.documentElement.classList.add('mobile-print-preview');
+  document.body.classList.add('mobile-print-preview');
+  applyMobilePrintPreviewScale();
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+}
+function closeMobilePrintPreview() {
+  document.documentElement.classList.remove('mobile-print-preview');
+  document.body.classList.remove('mobile-print-preview');
+}
+function openMobilePrintPreviewFromGuide() {
+  closePrintGuide();
+  openMobilePrintPreview();
+}
+window.addEventListener('resize', () => {
+  if (document.documentElement.classList.contains('mobile-print-preview')) {
+    applyMobilePrintPreviewScale();
+  }
+});
+
 /* ================================================================
    MOBILE DIALOG (replaces alert/confirm)
 ================================================================ */
@@ -3376,6 +3724,10 @@ window.resetAllData = async function() {
   hideUndoBar();
   renderCheckMode();
   renderMobileCards();
+const __previewMode = new URLSearchParams(window.location.search).get('preview');
+if (__previewMode === 'ios-print') {
+  setTimeout(openMobilePrintPreview, 50);
+}
 };
 
 // Patch codeExistsElsewhere alert
@@ -3443,10 +3795,57 @@ function buildMobileCards(sheetId, containerId) {
   container.innerHTML = html;
 }
 
+/* ── Mobile Tab Switcher ── */
+let ACTIVE_MOBILE_TAB = 1;
+
+function switchMobileTab(tabNum) {
+  ACTIVE_MOBILE_TAB = tabNum;
+  const sheet1 = document.getElementById('sheet1');
+  const sheet2 = document.getElementById('sheet2');
+  const sep = document.getElementById('page-sep-1');
+  const btn1 = document.getElementById('tab-btn-1');
+  const btn2 = document.getElementById('tab-btn-2');
+
+  if (tabNum === 1) {
+    if (sheet1) sheet1.style.display = '';
+    if (sheet2) sheet2.style.display = 'none';
+    if (sep) sep.style.display = 'none';
+    if (btn1) btn1.classList.add('active');
+    if (btn2) btn2.classList.remove('active');
+  } else {
+    if (sheet1) sheet1.style.display = 'none';
+    if (sheet2) sheet2.style.display = '';
+    if (sep) sep.style.display = 'none';
+    if (btn1) btn1.classList.remove('active');
+    if (btn2) btn2.classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function initMobileTabBar() {
+  const isMobile = window.innerWidth <= 768;
+  const tabBar = document.getElementById('mobile-tab-bar');
+  const sep = document.getElementById('page-sep-1');
+  if (!tabBar) return;
+  if (isMobile) {
+    tabBar.style.display = 'flex';
+    if (sep) sep.style.display = 'none';
+    switchMobileTab(ACTIVE_MOBILE_TAB);
+  } else {
+    tabBar.style.display = 'none';
+    const sheet1 = document.getElementById('sheet1');
+    const sheet2 = document.getElementById('sheet2');
+    if (sheet1) sheet1.style.display = '';
+    if (sheet2) sheet2.style.display = '';
+    if (sep) sep.style.display = '';
+  }
+}
+
 function renderMobileCards() {
   if (window.innerWidth > 768) return; // ไม่จำเป็นบน desktop
   buildMobileCards('tbl-s1', 'mobile-s1');
   buildMobileCards('tbl-s2', 'mobile-s2');
+  initMobileTabBar();
 }
 
 let MOBILE_CARD_SELECTED = null;
